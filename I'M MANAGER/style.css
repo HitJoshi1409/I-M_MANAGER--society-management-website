@@ -1,0 +1,102 @@
+/* Gradient + Glassmorphism style (Premium) */
+:root{
+  --bg-grad: linear-gradient(135deg,#0ea5e9 0%, #7c3aed 45%, #ec4899 100%);
+  --glass-bg: rgba(255,255,255,0.10);
+  --glass-strong: rgba(255,255,255,0.22);
+  --card-radius: 14px;
+  --muted: rgba(15,23,42,0.6);
+}
+
+/* Page background */
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg-grad);
+  color: #071233;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Topbar */
+.topbar{
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 6px 18px rgba(12, 18, 42, 0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.navbar-brand{
+  color:#ffffff !important;
+  letter-spacing:0.4px;
+  font-weight:700;
+}
+.nav-link{
+  color: rgba(255,255,255,0.92) !important;
+  opacity:0.9;
+}
+.nav-link.active, .nav-link:hover{
+  color: #fff !important;
+  text-decoration: underline;
+}
+.avatar{
+  width:36px; height:36px; border-radius:50%;
+  background: rgba(255,255,255,0.14);
+  display:inline-flex; align-items:center; justify-content:center;
+  color:#fff; font-weight:700;
+}
+
+/* Layout */
+.page-wrap{
+  padding: 24px;
+}
+.sidebar{
+  padding-top: 8px;
+}
+
+/* Glass card */
+.glass{
+  background: var(--glass-bg);
+  border-radius: var(--card-radius);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #071233;
+}
+.header-hero .brand{
+  color:#fff;
+  background: linear-gradient(90deg,#ffffff20,#ffffff08);
+  padding: 2px 8px;
+  border-radius: 8px;
+  color:#fff;
+}
+
+/* Stat card */
+.stat-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  text-align:center;
+  border-radius: 12px;
+  min-height:96px;
+}
+.stat-title{ color: rgba(0,0,0,0.55); font-size:0.9rem; }
+.stat-value{ font-size:1.8rem; font-weight:700; margin-top:6px; }
+
+/* member card / small items */
+.member-card, .notice-item{
+  background: rgba(255,255,255,0.03);
+  border-radius:10px;
+  padding:12px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* footer */
+.footer-glass{
+  background: transparent;
+  padding: 18px 6px;
+  color: rgba(255,255,255,0.9);
+}
+
+/* small screens */
+@media (max-width: 991px){
+  .sidebar{ display:none; }
+  .page-wrap{ padding: 12px; }
+  .navbar-brand{ font-size:1.05rem; }
+}

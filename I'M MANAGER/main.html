@@ -1,0 +1,326 @@
+<!doctype html>
+<!-- IM Manager — Society Management — Main Page
+     Single-file responsive frontend (HTML/CSS/JS)
+     Features: Nav, Hero, Quick action cards, Member preview, Billing & Maintenance cards,
+     Complaints, Notice board, Footer; mobile-friendly with accessible controls.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IM Manager — Society Management</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --accent:#06b6d4; /* teal */
+      --muted:#9aa6b2;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: linear-gradient(180deg, #07111a 0%, #081221 50%, #07101a 100%);
+      color: #e6eef3;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding:28px;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:0 18px}
+
+    /* Top navigation */
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;padding:12px 0;margin-bottom:18px
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px
+    }
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    .cta{background:linear-gradient(90deg,var(--accent),#7c3aed);padding:10px 14px;border-radius:10px;color:#07101a;font-weight:700;text-decoration:none}
+
+    /* Responsive nav */
+    .mobile-toggle{display:none;background:transparent;border:0;color:var(--muted);font-size:20px}
+
+    /* Hero */
+    .hero{
+      background: linear-gradient(180deg, rgba(12,18,28,0.6), rgba(6,9,13,0.4));
+      border-radius:var(--radius);
+      padding:28px;
+      display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:center;margin-bottom:20px;box-shadow:0 6px 30px rgba(2,6,23,0.6)
+    }
+    .hero h1{margin:0;font-size:28px}
+    .hero p{color:var(--muted);margin-top:8px}
+
+    .searchbar{display:flex;gap:10px;margin-top:18px}
+    .searchbar input{flex:1;padding:12px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);color:inherit}
+    .searchbar button{padding:12px 14px;border-radius:10px;border:0;background:var(--accent);color:#041018;font-weight:700}
+
+    .stats{display:flex;gap:12px;margin-top:12px}
+    .stat{background:rgba(255,255,255,0.03);padding:10px;border-radius:10px;text-align:center;flex:1}
+    .stat strong{display:block;font-size:18px}
+    .stat small{color:var(--muted)}
+
+    /* Quick actions & cards */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 4px 18px rgba(2,6,23,0.5)}
+    .card h3{margin:0 0 10px 0}
+    .card p{color:var(--muted);margin:0}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .btn{padding:8px 10px;border-radius:10px;border:0;background:rgba(255,255,255,0.04);color:inherit;font-weight:600}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#7c3aed);color:#041018}
+
+    /* Member list */
+    .members{display:flex;flex-direction:column;gap:12px}
+    .member{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02)}
+    .avatar{width:48px;height:48px;border-radius:10px;background:linear-gradient(180deg,#2d6b84,#4fb3c6);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .member h4{margin:0}
+    .member small{color:var(--muted)}
+
+    /* Noticeboard */
+    .notice{background:linear-gradient(180deg, rgba(124,58,237,0.08), rgba(6,182,212,0.03));padding:12px;border-radius:10px}
+    .notice h4{margin:0 0 8px 0}
+
+    /* Footer */
+    footer{margin-top:18px;padding:12px;text-align:center;color:var(--muted)}
+
+    /* Layout adjustments */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      body{padding:16px}
+      nav{display:none}
+      .mobile-toggle{display:inline-block}
+      .grid{grid-template-columns:1fr}
+      .topbar{align-items:flex-start}
+    }
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    .pill{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700}
+
+    /* simple modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:50}
+    .modal{background:linear-gradient(180deg,#08101a,#07101b);padding:18px;border-radius:12px;max-width:520px;width:92%}
+    .modal.active{display:block}
+    .modal header{display:flex;justify-content:space-between;align-items:center}
+    .modal .form{margin-top:12px;display:grid;gap:8px}
+    .modal input, .modal select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">IM</div>
+        <div>
+          <div style="font-weight:700">IM Manager</div>
+          <div style="font-size:12px;color:var(--muted)">Society Management Dashboard</div>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <a href="#members">Members</a>
+        <a href="#billing">Billing</a>
+        <a href="#maintenance">Maintenance</a>
+        <a href="#complaints">Complaints</a>
+        <a href="#noticeboard">Notice Board</a>
+      </nav>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="mobile-toggle" aria-controls="mobile-menu" aria-expanded="false" id="mobileBtn">☰</button>
+        <a class="cta" href="#">New Notice</a>
+      </div>
+    </div>
+
+    <!-- Mobile menu (hidden on desktop) -->
+    <div id="mobile-menu" style="display:none;margin-bottom:14px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="#members">Members</a>
+        <a href="#billing">Billing</a>
+        <a href="#maintenance">Maintenance</a>
+        <a href="#complaints">Complaints</a>
+        <a href="#noticeboard">Notice Board</a>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div>
+        <h1>Welcome back — manage your society with ease.</h1>
+        <p>Fast access to members, billing, maintenance requests, complaints and notices. Built to be responsive and easy to use.</p>
+
+        <div class="searchbar" role="search">
+          <input id="searchInput" placeholder="Search members, flats, notice..." aria-label="Search" />
+          <button onclick="quickSearch()">Search</button>
+        </div>
+
+        <div class="stats" aria-hidden="false">
+          <div class="stat"><strong>256</strong><small>Residents</small></div>
+          <div class="stat"><strong>18</strong><small>Pending Bills</small></div>
+          <div class="stat"><strong>3</strong><small>Urgent Maintenance</small></div>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary" onclick="openModal()">Add Member</button>
+          <button class="btn" onclick="alert('Open members page')">View Members</button>
+          <button class="btn" onclick="alert('Open billing')">Billing</button>
+        </div>
+      </div>
+
+      <aside>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card">
+            <h3>Quick Actions</h3>
+            <div class="actions">
+              <button class="btn" onclick="alert('Create Notice')">Create Notice</button>
+              <button class="btn" onclick="alert('Raise Maintenance')">Raise Maintenance</button>
+              <button class="btn" onclick="alert('Add Vehicle')">Add Vehicle</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Upcoming Meeting</h3>
+            <p class="muted">Annual General Meeting on <strong>Dec 12, 2025</strong> at 6:00 PM — Club House</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- GRID: Members | Billing | Complaints -->
+    <section class="grid" aria-label="Overview cards">
+      <div class="card" id="members">
+        <h3>Member Management</h3>
+        <p class="muted">View, add and edit society members with flats and contact details.</p>
+        <div style="margin-top:12px" class="members" aria-live="polite">
+          <div class="member"><div class="avatar">KA</div><div><h4>Kamal Arora</h4><small>Flat 1A — 98765 43210</small></div></div>
+          <div class="member"><div class="avatar">RS</div><div><h4>Rita Shah</h4><small>Flat 5C — 91234 56789</small></div></div>
+          <div class="member"><div class="avatar">PM</div><div><h4>Pranav Mehta</h4><small>Flat 3B — 99887 66554</small></div></div>
+        </div>
+      </div>
+
+      <div class="card" id="billing">
+        <h3>Billing & Maintenance</h3>
+        <p class="muted">Track bills, payments, and maintenance schedules. Mark invoices as paid and send reminders.</p>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Flat 5C</strong><div class="muted">Outstanding: ₹4,200</div></div><button class="btn">Send Reminder</button></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Flat 8A</strong><div class="muted">Outstanding: ₹2,100</div></div><button class="btn">Mark Paid</button></div>
+        </div>
+      </div>
+
+      <div class="card" id="complaints">
+        <h3>Complaints & Requests</h3>
+        <p class="muted">Log issues, assign to staff, and update status in one place.</p>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between"><div><strong>Water leak — Flat 4B</strong><div class="muted">Opened: 2 days ago</div></div><button class="btn">Assign</button></div>
+          <div style="display:flex;justify-content:space-between"><div><strong>Streetlight outage</strong><div class="muted">Opened: 1 day ago</div></div><button class="btn">Resolve</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notice board & Recent activity -->
+    <section style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start">
+      <div class="card" id="noticeboard">
+        <h3>Notice Board</h3>
+        <div class="notice" style="margin-top:10px">
+          <h4>Water supply maintenance — Nov 28, 2025</h4>
+          <p class="muted">There will be a scheduled water supply interruption between 10:00 AM - 2:00 PM on Nov 28 for pipeline maintenance. Please store water accordingly.</p>
+        </div>
+
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Garden cleaning</strong><div class="muted">Nov 22, 2025</div></div><button class="btn">Details</button></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Security meeting</strong><div class="muted">Nov 30, 2025</div></div><button class="btn">Join</button></div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3>Recent Activity</h3>
+          <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
+            <div class="muted">Rita Shah paid maintenance — 2h ago</div>
+            <div class="muted">New complaint logged — Water leak (Flat 4B)</div>
+            <div class="muted">Notice posted — AGM scheduled</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3>Quick Links</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <a class="btn" href="#">Export Members</a>
+            <a class="btn" href="#">Download Ledger</a>
+            <a class="btn" href="#">Contact Admin</a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      © IM Manager — Society Management • Built with ❤️ — responsive frontend demo
+    </footer>
+  </div>
+
+  <!-- Modal: Add Member -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <header>
+        <h3>Add New Member</h3>
+        <button onclick="closeModal()" aria-label="Close">✕</button>
+      </header>
+      <div class="form">
+        <input id="mName" placeholder="Full name" />
+        <input id="mFlat" placeholder="Flat (e.g., 3B)" />
+        <input id="mPhone" placeholder="Phone" />
+        <select id="mRole"><option>Owner</option><option>Tenant</option><option>Committee</option></select>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+          <button class="btn" onclick="closeModal()">Cancel</button>
+          <button class="btn primary" onclick="saveMember()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggling
+    const mobileBtn = document.getElementById('mobileBtn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn?.addEventListener('click', ()=>{
+      const open = mobileMenu.style.display === 'block';
+      mobileMenu.style.display = open ? 'none' : 'block';
+      mobileBtn.setAttribute('aria-expanded', String(!open));
+    });
+
+    // Modal controls
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    function openModal(){ modalBackdrop.classList.add('active'); modalBackdrop.style.display='flex'; modalBackdrop.setAttribute('aria-hidden','false'); }
+    function closeModal(){ modalBackdrop.classList.remove('active'); modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
+    function saveMember(){
+      const name = document.getElementById('mName').value || 'Unnamed';
+      const flat = document.getElementById('mFlat').value || '';
+      const phone = document.getElementById('mPhone').value || '';
+      // For demo, we simply show a success and close.
+      alert(`Saved member: ${name} ${flat ? '('+flat+')' : ''} ${phone}`);
+      closeModal();
+    }
+
+    // Quick search (demo)
+    function quickSearch(){
+      const q = document.getElementById('searchInput').value.trim();
+      if(!q) return alert('Type something to search.');
+      alert('Searching for: ' + q + ' (demo)');
+    }
+
+    // Accessibility: close modal on ESC
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>

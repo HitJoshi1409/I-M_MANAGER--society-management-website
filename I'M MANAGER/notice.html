@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>I M Manager — Notices</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark topbar">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-3" href="index.html">I M Manager</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbarNav6">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topbarNav6">
+        <ul class="navbar-nav ms-auto me-3 align-items-center">
+          <li class="nav-item me-2"><a class="nav-link" href="index.html">Dashboard</a></li>
+          <li class="nav-item me-2"><a class="nav-link" href="members.html">Members</a></li>
+          <li class="nav-item me-2"><a class="nav-link active" href="notices.html">Notices</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container page-wrap py-3">
+    <div class="row gx-4">
+      <aside class="col-lg-3">
+        <div class="glass p-3 mb-4">
+          <h6>Notice Board</h6>
+          <p class="small text-muted mb-0">Publish and view society notices.</p>
+        </div>
+      </aside>
+
+      <main class="col-lg-9">
+        <div class="glass p-3 mb-3">
+          <h5>Publish Notice</h5>
+          <form class="row g-2" action="#" method="post" onsubmit="return false;">
+            <div class="col-md-8"><input class="form-control" placeholder="Notice title" required></div>
+            <div class="col-md-4"><input type="date" class="form-control"></div>
+            <div class="col-12 mt-2"><textarea class="form-control" rows="4" placeholder="Notice body"></textarea></div>
+            <div class="col-12 mt-2"><button class="btn btn-primary">Publish (demo)</button></div>
+          </form>
+        </div>
+
+        <div class="glass p-3">
+          <h5>Active Notices</h5>
+          <ul class="list-unstyled mt-2">
+            <li class="mb-3">
+              <strong>Lift maintenance on Nov 5</strong>
+              <div class="small text-muted">Oct 28, 2025 • Expires Nov 6</div>
+              <p class="small text-muted mb-0">Service vendor will maintain lifts on Nov 5 between 10AM–2PM.</p>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <footer class="mt-4 text-center small text-white footer-glass">I M Manager • Demo</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
